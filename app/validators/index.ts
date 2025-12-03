@@ -40,6 +40,11 @@ export {
   CreatePortfolioSchema,
   UpdatePortfolioSchema,
   DeletePortfoliosSchema,
+  
+  // Product
+  CreateProductSchema,
+  UpdateProductSchema,
+  DeleteProductsSchema,
 } from './schemas';
 
 // Type exports
@@ -56,4 +61,7 @@ export type {
   CreatePortfolioInput,
   UpdatePortfolioInput,
   DeletePortfoliosInput,
+  CreateProductInput,
+  UpdateProductInput,
+  DeleteProductsInput,
 } from './schemas';

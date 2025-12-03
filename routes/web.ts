@@ -10,6 +10,7 @@ import Auth from "@middlewares/auth"
 import HomeController from "@controllers/HomeController";
 import AssetController from "@controllers/AssetController";
 import PortfolioController from "@controllers/PortfolioController";
+import ProductController from "@controllers/ProductController";
 import { strictRateLimit } from "@middlewares/rateLimit";
 
 const Route = createRouter();
@@ -91,8 +92,25 @@ Route.post("/portfolios", [Auth], PortfolioController.createPortfolio);
 Route.put("/portfolios/:id", [Auth], PortfolioController.updatePortfolio);
 Route.delete("/portfolios", [Auth], PortfolioController.deletePortfolios);
 
+/**
+ * Product Routes
+ * Routes for managing product items
+ * ------------------------------------------------
+ * GET    /products     - List all products
+ * POST   /products     - Create product (admin only)
+ * PUT    /products/:id - Update product (admin only)
+ * DELETE /products     - Delete products (admin only)
+ */
+Route.get("/products", [Auth], ProductController.productsPage);
+Route.post("/products", [Auth], ProductController.createProduct);
+Route.put("/products/:id", [Auth], ProductController.updateProduct);
+Route.delete("/products", [Auth], ProductController.deleteProducts);
+
 // Avatar upload endpoint (local storage) - rate limited to prevent abuse
 Route.post("/assets/avatar", [Auth, strictRateLimit()], AssetController.uploadAsset);
+
+// Generic image upload for portfolio/products
+Route.post("/assets/image", [Auth, strictRateLimit()], AssetController.uploadImage);
 
 /**
  * Static Asset Handling Routes

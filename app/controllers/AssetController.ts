@@ -14,6 +14,92 @@ let cache: { [key: string]: Buffer } = {};
 
 class AssetController extends BaseController {
     /**
+     * Generic image upload for portfolio/products
+     * - Accepts image file via multipart form
+     * - Converts to WebP format
+     * - Saves to public/uploads/images directory
+     * - Returns the public URL
+     */
+    public async uploadImage(request: NaraRequest, response: NaraResponse) {
+        this.requireAuth(request);
+
+        const userId = request.user.id;
+
+        try { 
+            let isValidFile = true;
+            let uploadComplete = false;
+
+            await request.multipart(async (field: any) => {
+                if (field.file) {
+                    if (!field.mime_type.includes("image")) {
+                        isValidFile = false;
+                        return;
+                    }
+
+                    const id = randomUUID();
+                    const fileName = `${id}.webp`; 
+
+                    const chunks: Buffer[] = [];
+                    const readable = field.file.stream;
+
+                    readable.on('data', (chunk: Buffer) => {
+                        chunks.push(chunk);
+                    });
+
+                    readable.on('end', async () => {
+                        const buffer = Buffer.concat(chunks);
+
+                        try {
+                            const processedBuffer = await sharp(buffer)
+                                .webp({ quality: 80 })
+                                .resize(1200, 1200, {
+                                    fit: 'inside',
+                                    withoutEnlargement: true
+                                })
+                                .toBuffer();
+
+                            const uploadDir = "public/uploads/images";
+                            await fs.promises.mkdir(uploadDir, { recursive: true });
+
+                            const localPath = `${uploadDir}/${fileName}`;
+                            await fs.promises.writeFile(localPath, processedBuffer);
+
+                            const publicUrl = `/public/uploads/images/${fileName}`;
+
+                            const result = {
+                                id,
+                                type: 'image',
+                                url: publicUrl,
+                                mime_type: 'image/webp',
+                                name: fileName,
+                                size: processedBuffer.length,
+                                user_id: userId,
+                                created_at: Date.now(),
+                                updated_at: Date.now()
+                            };
+                            await DB.from("assets").insert(result);
+
+                            uploadComplete = true;
+                            jsonSuccess(response, 'Gambar berhasil diupload', { url: publicUrl });
+                        } catch (err) {
+                            Logger.error('Error processing and uploading image', err as Error);
+                            jsonServerError(response, 'Gagal memproses dan mengupload gambar');
+                        }
+                    });
+                }
+            });
+
+            if (!isValidFile) {
+                return jsonError(response, "Tipe file tidak valid. Hanya gambar yang diperbolehkan.", 400, "INVALID_FILE_TYPE");
+            }
+
+        } catch (error) {
+            Logger.error('Error uploading image', error as Error);
+            return jsonServerError(response, "Internal server error");
+        }
+    }
+
+    /**
      * Serves assets from the dist folder (compiled assets)
      * - Handles CSS and JS files with proper content types
      * - Implements file caching for better performance

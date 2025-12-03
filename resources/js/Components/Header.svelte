@@ -26,6 +26,7 @@
   const menuLinks: MenuLink[] = [
     { href: '/dashboard', label: 'Overview', group: 'dashboard', show: true },  
     { href: '/portfolios', label: 'Portfolios', group: 'portfolios', show: user?.is_admin ?? false },
+    { href: '/products', label: 'Products', group: 'products', show: user?.is_admin ?? false },
     { href: '/users', label: 'Users', group: 'users', show: user?.is_admin ?? false },
     { href: '/profile', label: 'Profile', group: 'profile', show: !!user },
   ];

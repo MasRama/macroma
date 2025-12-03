@@ -1,12 +1,13 @@
 <script lang="ts">
-  import type { PortfolioForm } from '../types/portfolio';
+  import type { ProductForm } from '../types/product';
+  import { PRODUCT_TYPES } from '../types/product';
   import { createEventDispatcher } from 'svelte';
   import axios from 'axios';
   import { Toast } from './helper';
 
   export let show: boolean = false;
   export let mode: 'create' | 'edit' = 'create';
-  export let form: PortfolioForm;
+  export let form: ProductForm;
   export let isSubmitting: boolean = false;
 
   let fileInput: HTMLInputElement;
@@ -15,7 +16,7 @@
 
   const dispatch = createEventDispatcher<{
     close: void;
-    submit: PortfolioForm;
+    submit: ProductForm;
   }>();
 
   // Reset preview when modal opens/closes or form changes
@@ -85,10 +86,10 @@
 
 {#if show}
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-    <div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900/95 p-6 shadow-2xl">
+    <div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900/95 p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-sm font-semibold tracking-[0.18em] uppercase text-slate-400">
-          {mode === 'create' ? 'Tambah portfolio baru' : 'Edit portfolio'}
+          {mode === 'create' ? 'Tambah produk baru' : 'Edit produk'}
         </h3>
         <button
           class="text-slate-400 hover:text-slate-200 text-sm"
@@ -149,24 +150,37 @@
         </div>
 
         <div class="space-y-1">
-          <label for="portfolio-description" class="block text-xs font-medium text-slate-400">Deskripsi</label>
+          <label for="product-type" class="block text-xs font-medium text-slate-400">Tipe Produk</label>
+          <select
+            id="product-type"
+            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none"
+            bind:value={form.type}
+          >
+            {#each PRODUCT_TYPES as productType}
+              <option value={productType.value}>{productType.label}</option>
+            {/each}
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <label for="product-description" class="block text-xs font-medium text-slate-400">Deskripsi</label>
           <textarea
-            id="portfolio-description"
+            id="product-description"
             class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none resize-none"
             rows="4"
             bind:value={form.description}
-            placeholder="Deskripsi portfolio (minimal 10 karakter)"
+            placeholder="Deskripsi produk (minimal 10 karakter)"
           ></textarea>
         </div>
 
         <div class="space-y-1">
-          <label for="portfolio-hyperlink" class="block text-xs font-medium text-slate-400">Hyperlink (opsional)</label>
+          <label for="product-hyperlink" class="block text-xs font-medium text-slate-400">Hyperlink (opsional)</label>
           <input
-            id="portfolio-hyperlink"
+            id="product-hyperlink"
             class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none"
             type="text"
             bind:value={form.hyperlink}
-            placeholder="https://example.com/project"
+            placeholder="https://example.com/product"
           />
         </div>
 
@@ -187,7 +201,7 @@
             {#if isSubmitting}
               Menyimpan...
             {:else}
-              {mode === 'create' ? 'Simpan portfolio' : 'Update portfolio'}
+              {mode === 'create' ? 'Simpan produk' : 'Update produk'}
             {/if}
           </button>
         </div>
