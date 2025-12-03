@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "lib": ["es2021"],
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["app/*"],
+      "@core": ["app/core/index.ts"],
+      "@core/*": ["app/core/*"],
+      "@controllers/*": ["app/controllers/*"],
+      "@services/*": ["app/services/*"],
+      "@middlewares/*": ["app/middlewares/*"],
+      "@validators/*": ["app/validators/*"],
+      "@validators": ["app/validators/index.ts"],
+      "@config/*": ["app/config/*"],
+      "@config": ["app/config/index.ts"],
+      "@routes/*": ["routes/*"],
+      "@resources/*": ["resources/*"],
+      "@root/*": ["./*"],
+      "@root/knexfile": ["./knexfile.ts"]
+    }
+  },
+  "include": [
+    "./*.ts",
+    "commands",
+    "migrations",
+    "seeds",
+    "app",
+    "routes"
+  ],
+  "exclude": [
+    "resources",
+    "node_modules",
+    "dist",
+    "build"
+  ]
+}
