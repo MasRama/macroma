@@ -35,6 +35,11 @@ export {
   UpdateUserSchema,
   DeleteUsersSchema,
   ChangeProfileSchema,
+  
+  // Portfolio
+  CreatePortfolioSchema,
+  UpdatePortfolioSchema,
+  DeletePortfoliosSchema,
 } from './schemas';
 
 // Type exports
@@ -48,4 +53,7 @@ export type {
   UpdateUserInput,
   DeleteUsersInput,
   ChangeProfileInput,
+  CreatePortfolioInput,
+  UpdatePortfolioInput,
+  DeletePortfoliosInput,
 } from './schemas';

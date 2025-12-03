@@ -66,6 +66,22 @@ export interface ChangeProfileInput {
   phone?: string | null;
 }
 
+export interface CreatePortfolioInput {
+  image_url: string;
+  description: string;
+  hyperlink?: string | null;
+}
+
+export interface UpdatePortfolioInput {
+  image_url?: string;
+  description?: string;
+  hyperlink?: string | null;
+}
+
+export interface DeletePortfoliosInput {
+  ids: string[];
+}
+
 
 // ============================================
 // Validator Functions
@@ -487,6 +503,139 @@ export function ChangeProfileSchema(data: unknown): ValidationResult<ChangeProfi
       name: String(name).trim(),
       email: String(email).toLowerCase(),
       phone: phone ? String(phone) : null,
+    }
+  };
+}
+
+/**
+ * Create portfolio validator
+ */
+export function CreatePortfolioSchema(data: unknown): ValidationResult<CreatePortfolioInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { image_url, description, hyperlink } = data as Record<string, unknown>;
+
+  // Image URL validation
+  if (!isString(image_url) || image_url.trim().length === 0) {
+    errors.image_url = ['URL gambar wajib diisi'];
+  }
+
+  // Description validation
+  if (!isString(description) || description.trim().length < 10) {
+    errors.description = ['Deskripsi minimal 10 karakter'];
+  } else if (description.length > 1000) {
+    errors.description = ['Deskripsi maksimal 1000 karakter'];
+  }
+
+  // Hyperlink validation (optional)
+  if (hyperlink !== undefined && hyperlink !== null && hyperlink !== '') {
+    if (!isString(hyperlink)) {
+      errors.hyperlink = ['Format hyperlink tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  return {
+    success: true,
+    data: {
+      image_url: String(image_url).trim(),
+      description: String(description).trim(),
+      hyperlink: hyperlink ? String(hyperlink).trim() : null,
+    }
+  };
+}
+
+/**
+ * Update portfolio validator
+ */
+export function UpdatePortfolioSchema(data: unknown): ValidationResult<UpdatePortfolioInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { image_url, description, hyperlink } = data as Record<string, unknown>;
+
+  // At least one field must be provided
+  const hasAnyField = image_url !== undefined || description !== undefined || hyperlink !== undefined;
+  
+  if (!hasAnyField) {
+    errors._root = ['Minimal satu field harus diisi untuk update'];
+  }
+
+  // Image URL validation (optional)
+  if (image_url !== undefined && image_url !== null) {
+    if (!isString(image_url) || image_url.trim().length === 0) {
+      errors.image_url = ['URL gambar tidak boleh kosong'];
+    }
+  }
+
+  // Description validation (optional)
+  if (description !== undefined && description !== null) {
+    if (!isString(description) || description.trim().length < 10) {
+      errors.description = ['Deskripsi minimal 10 karakter'];
+    } else if (description.length > 1000) {
+      errors.description = ['Deskripsi maksimal 1000 karakter'];
+    }
+  }
+
+  // Hyperlink validation (optional)
+  if (hyperlink !== undefined && hyperlink !== null && hyperlink !== '') {
+    if (!isString(hyperlink)) {
+      errors.hyperlink = ['Format hyperlink tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  const result: UpdatePortfolioInput = {};
+  if (image_url !== undefined) result.image_url = String(image_url).trim();
+  if (description !== undefined) result.description = String(description).trim();
+  if (hyperlink !== undefined) result.hyperlink = hyperlink ? String(hyperlink).trim() : null;
+
+  return { success: true, data: result };
+}
+
+/**
+ * Delete portfolios validator
+ */
+export function DeletePortfoliosSchema(data: unknown): ValidationResult<DeletePortfoliosInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { ids } = data as Record<string, unknown>;
+
+  // IDs validation
+  if (!isArray(ids) || ids.length === 0) {
+    errors.ids = ['Minimal satu ID harus dipilih'];
+  } else {
+    const invalidIds = ids.filter(id => !isUUID(id));
+    if (invalidIds.length > 0) {
+      errors.ids = ['Format ID tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  return {
+    success: true,
+    data: {
+      ids: (ids as unknown[]).map(id => String(id)),
     }
   };
 }

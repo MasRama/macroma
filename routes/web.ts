@@ -9,6 +9,7 @@ import AuthController from "@controllers/AuthController";
 import Auth from "@middlewares/auth"
 import HomeController from "@controllers/HomeController";
 import AssetController from "@controllers/AssetController";
+import PortfolioController from "@controllers/PortfolioController";
 import { strictRateLimit } from "@middlewares/rateLimit";
 
 const Route = createRouter();
@@ -75,6 +76,20 @@ Route.post("/change-password", [Auth], AuthController.changePassword);
 Route.post("/users", [Auth], AuthController.createUser);
 Route.put("/users/:id", [Auth], AuthController.updateUser);
 Route.delete("/users", [Auth], AuthController.deleteUsers);
+
+/**
+ * Portfolio Routes
+ * Routes for managing portfolio items
+ * ------------------------------------------------
+ * GET    /portfolios     - List all portfolios
+ * POST   /portfolios     - Create portfolio (admin only)
+ * PUT    /portfolios/:id - Update portfolio (admin only)
+ * DELETE /portfolios     - Delete portfolios (admin only)
+ */
+Route.get("/portfolios", [Auth], PortfolioController.portfoliosPage);
+Route.post("/portfolios", [Auth], PortfolioController.createPortfolio);
+Route.put("/portfolios/:id", [Auth], PortfolioController.updatePortfolio);
+Route.delete("/portfolios", [Auth], PortfolioController.deletePortfolios);
 
 // Avatar upload endpoint (local storage) - rate limited to prevent abuse
 Route.post("/assets/avatar", [Auth, strictRateLimit()], AssetController.uploadAsset);

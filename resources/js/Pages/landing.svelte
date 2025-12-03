@@ -131,7 +131,7 @@
 
 <main class="relative overflow-hidden">
   <!-- Hero Section -->
-  <section class="relative min-h-screen flex items-center justify-center px-6 py-20">
+  <section class="relative min-h-screen flex items-center justify-center px-6 py-20 pt-28">
     <!-- Floating Elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="absolute top-1/4 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
