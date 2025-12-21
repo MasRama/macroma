@@ -111,18 +111,12 @@
         </a>
       {:else}
         <a
-          href="/login"
-          use:inertia
-          class="hidden sm:inline-flex text-sm font-medium text-slate-300 hover:text-white transition-colors"
-        >
-          Masuk
-        </a>
-        <a
-          href="/register"
-          use:inertia
+          href="https://wa.me/6285168657868?text=Halo%20Macroma%20Media%2C%20saya%20ingin%20berkonsultasi%20tentang%20layanan%20Anda."
+          target="_blank"
+          rel="noopener noreferrer"
           class="inline-flex items-center justify-center rounded-lg px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 transition-all hover:shadow-[0_0_24px_-5px_rgba(59,130,246,0.6)]"
         >
-          Mulai Sekarang
+          Hubungi Kami
         </a>
       {/if}
     </div>
@@ -162,7 +156,7 @@
             </h1>
 
             <p in:fly={{ x: -30, duration: 800, delay: 200 }} class="text-lg sm:text-xl text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Kami adalah partner teknologi yang mengubah <span class="text-white font-medium">kompleksitas bisnis</span> menjadi <span class="text-blue-400 font-medium">solusi digital elegan</span>. Dari konsep hingga deployment.
+              Kami adalah partner teknologi yang mengubah <span class="text-white font-medium">tantangan operasional</span> menjadi <span class="text-blue-400 font-medium">solusi digital yang elegan</span>. Dari konsep hingga deployment.
             </p>
 
             <div in:fly={{ x: -30, duration: 800, delay: 300 }} class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
@@ -180,11 +174,11 @@
 
             <!-- Trust Badges -->
             <div in:fly={{ x: -30, duration: 800, delay: 400 }} class="mt-12 pt-8 border-t border-slate-800">
-              <p class="text-xs uppercase tracking-wider text-slate-500 mb-4">Dipercaya oleh perusahaan terkemuka</p>
+              <p class="text-xs uppercase tracking-wider text-slate-500 mb-4">Dipercaya oleh berbagai client</p>
               <div class="flex items-center gap-8 justify-center lg:justify-start opacity-50">
-                <span class="text-slate-400 font-bold text-lg">BANK</span>
-                <span class="text-slate-400 font-bold text-lg">RETAIL</span>
-                <span class="text-slate-400 font-bold text-lg">LOGISTIK</span>
+                <span class="text-slate-400 font-bold text-lg">Instansi Pendidikan</span>
+                <span class="text-slate-400 font-bold text-lg">Pemerintahan</span>
+                <span class="text-slate-400 font-bold text-lg">Perusahaan Perorangan</span>
               </div>
             </div>
           {/if}
@@ -295,7 +289,7 @@
       <div class="text-center mb-16">
         <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">Our Services</span>
         <h2 class="text-3xl md:text-4xl font-bold text-slate-50 mb-4">Solving Problems with Systems</h2>
-        <p class="text-slate-400 max-w-2xl mx-auto">Pendekatan sistematis kami memastikan setiap solusi yang dibangun tepat sasaran, efisien, dan memiliki dampak nyata.</p>
+        <p class="text-slate-400 max-w-2xl mx-auto">Setiap pekerjaan memiliki langkah kerja yang unik, dan sistem digital harus mampu menyesuaikannya. Kami menyediakan layanan pembuatan aplikasi by request untuk membantu pekerjaan Anda menjadi lebih cepat, rapi, dan efisien.</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -359,6 +353,121 @@
             </div>
           </div>
         {/each}
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-4">Tentang Kami</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-50 mb-4">Mengenal Lebih Dekat</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Partner teknologi terpercaya untuk transformasi digital bisnis Anda.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Company Profile -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 hover:border-cyan-500/50 transition-colors duration-300">
+          <div class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-100 mb-4">Profil Perusahaan</h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+              <span class="text-slate-500">Nama Perusahaan</span>
+              <span class="text-slate-300 font-medium">PT Macroma Media Teknologi</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+              <span class="text-slate-500">NIB</span>
+              <span class="text-slate-300 font-medium">1812250110117</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800 pb-2">
+              <span class="text-slate-500">No. SK Kemenkumham</span>
+              <span class="text-slate-300 font-medium text-right text-xs">AHU-070436.AH.01.30.Tahun 2025</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-500">Tahun Berdiri</span>
+              <span class="text-slate-300 font-medium">2025</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vision & Mission -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 hover:border-cyan-500/50 transition-colors duration-300">
+          <div class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-100 mb-4">Visi & Misi</h3>
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-cyan-400 font-semibold text-sm mb-2">Visi</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">Menjadi partner teknologi terdepan yang membantu bisnis Indonesia bertransformasi digital dengan solusi yang inovatif dan terjangkau.</p>
+            </div>
+            <div>
+              <h4 class="text-cyan-400 font-semibold text-sm mb-2">Misi</h4>
+              <ul class="text-slate-400 text-sm leading-relaxed space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-1">•</span>
+                  <span>Menyediakan solusi digital yang disesuaikan dengan kebutuhan unik setiap klien</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-1">•</span>
+                  <span>Mengutamakan kualitas dan efisiensi dalam setiap pengembangan sistem</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-cyan-400 mt-1">•</span>
+                  <span>Memberikan layanan purna jual yang responsif dan profesional</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 hover:border-cyan-500/50 transition-colors duration-300">
+          <div class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-100 mb-4">Tim Kami</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-6">Tim profesional yang berdedikasi untuk memberikan solusi terbaik bagi bisnis Anda.</p>
+          <div class="space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold">
+                F
+              </div>
+              <div>
+                <p class="text-slate-200 font-medium">Founder & CEO</p>
+                <p class="text-slate-500 text-sm">Strategic Leadership</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                T
+              </div>
+              <div>
+                <p class="text-slate-200 font-medium">Tech Lead</p>
+                <p class="text-slate-500 text-sm">System Architecture</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-bold">
+                D
+              </div>
+              <div>
+                <p class="text-slate-200 font-medium">Development Team</p>
+                <p class="text-slate-500 text-sm">Full-Stack Engineers</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
