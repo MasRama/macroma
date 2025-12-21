@@ -24,7 +24,12 @@ class HomeController extends BaseController {
             .orderBy('created_at', 'desc')
             .select("*");
 
-        return response.inertia("landing", { user, carousels });
+        const portfolios = await DB.from("portfolios")
+            .orderBy('created_at', 'desc')
+            .limit(6)
+            .select("*");
+
+        return response.inertia("landing", { user, carousels, portfolios });
     }
 }
 

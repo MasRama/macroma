@@ -28,6 +28,15 @@
 
   export let carousels: CarouselImage[] = [];
 
+  interface Portfolio {
+    id: string;
+    image_url: string;
+    description: string;
+    hyperlink?: string | null;
+  }
+
+  export let portfolios: Portfolio[] = [];
+
   interface Service {
     title: string;
     desc: string;
@@ -108,6 +117,7 @@
     <nav class="hidden md:flex items-center gap-8">
       <a href="#services" class="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors">Solusi</a>
       <a href="#products" class="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors">Produk</a>
+      <a href="#portfolio" class="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors">Portofolio</a>
       <a href="#about" class="text-sm font-medium text-slate-400 hover:text-blue-400 transition-colors">Tentang Kami</a>
     </nav>
 
@@ -177,7 +187,7 @@
                   <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                 </span>
               </a>
-              <a href="#services" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/50 px-8 py-4 text-sm font-semibold text-slate-300 backdrop-blur-sm transition-all hover:bg-slate-800 hover:text-white hover:border-slate-600">
+              <a href="https://wa.me/6285168657868?text=Halo%20Macroma%20Media%2C%20saya%20ingin%20berkonsultasi%20gratis%20tentang%20layanan%20Anda." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/50 px-8 py-4 text-sm font-semibold text-slate-300 backdrop-blur-sm transition-all hover:bg-slate-800 hover:text-white hover:border-slate-600">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 Konsultasi Gratis
               </a>
@@ -305,6 +315,80 @@
     </div>
   </section>
 
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="py-24 px-6 relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">Our Portfolio</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-50 mb-4">Portofolio Kami</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Lihat hasil karya dan proyek-proyek yang telah kami kerjakan untuk berbagai klien.</p>
+      </div>
+
+      {#if portfolios && portfolios.length > 0}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {#each portfolios as portfolio}
+            <div class="group rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/5">
+              <!-- Image -->
+              <div class="aspect-video bg-slate-800 overflow-hidden">
+                <img 
+                  src={portfolio.image_url} 
+                  alt={portfolio.description}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  on:error={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://via.placeholder.com/400x225?text=No+Image';
+                  }}
+                />
+              </div>
+              
+              <!-- Content -->
+              <div class="p-6">
+                <p class="text-sm text-slate-300 mb-4 line-clamp-3">
+                  {portfolio.description}
+                </p>
+                
+                {#if portfolio.hyperlink}
+                  <a 
+                    href={portfolio.hyperlink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 transition-colors font-medium"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Lihat Project
+                  </a>
+                {/if}
+              </div>
+            </div>
+          {/each}
+        </div>
+
+        <div class="text-center">
+          <a 
+            href="/portfolios" 
+            use:inertia
+            class="inline-flex items-center justify-center gap-2 rounded-2xl border border-purple-500/30 bg-purple-500/10 px-8 py-4 text-sm font-semibold text-purple-300 backdrop-blur-sm transition-all hover:bg-purple-500/20 hover:text-purple-200 hover:border-purple-500/50"
+          >
+            Lihat Semua Portofolio
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      {:else}
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-12 text-center">
+          <svg class="w-16 h-16 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <p class="text-slate-400 text-lg mb-2">Belum ada portofolio untuk ditampilkan</p>
+          <p class="text-slate-500 text-sm">Portofolio proyek akan segera ditambahkan.</p>
+        </div>
+      {/if}
+    </div>
+  </section>
+
   <!-- About Section -->
   <section id="about" class="py-24 px-6 relative">
     <div class="max-w-7xl mx-auto">
@@ -389,29 +473,29 @@
           <div class="space-y-4">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold">
-                F
+                MF
               </div>
               <div>
-                <p class="text-slate-200 font-medium">Founder & CEO</p>
-                <p class="text-slate-500 text-sm">Strategic Leadership</p>
+                <p class="text-slate-200 font-medium">M Ferrari Firmansyah</p>
+                <p class="text-slate-500 text-sm">Founder & CEO</p>
               </div>
             </div>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                T
+                MR
               </div>
               <div>
-                <p class="text-slate-200 font-medium">Tech Lead</p>
-                <p class="text-slate-500 text-sm">System Architecture</p>
+                <p class="text-slate-200 font-medium">M Roykhan Maulana</p>
+                <p class="text-slate-500 text-sm">Marketing Team</p>
               </div>
             </div>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white font-bold">
-                D
+                FR
               </div>
               <div>
-                <p class="text-slate-200 font-medium">Development Team</p>
-                <p class="text-slate-500 text-sm">Full-Stack Engineers</p>
+                <p class="text-slate-200 font-medium">Fatqan Ramadhiansyah</p>
+                <p class="text-slate-500 text-sm">Development Team</p>
               </div>
             </div>
           </div>
