@@ -105,8 +105,8 @@
 <header class="fixed inset-x-0 top-0 z-40 border-b border-slate-800/50 bg-slate-950/80 backdrop-blur-xl supports-[backdrop-filter]:bg-slate-950/60">
   <div class="max-w-7xl mx-auto flex h-20 items-center justify-between px-6 lg:px-8">
     <a href="/" use:inertia class="flex items-center gap-3 group">
-      <div class="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
-        <span class="font-bold text-xl text-white">M</span>
+      <div class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
+        <img src="/public/macroma.png" alt="Macroma Logo" class="h-full w-full object-contain" />
       </div>
       <div class="flex flex-col leading-none">
         <span class="text-lg font-bold tracking-tight text-slate-100">Macroma</span>
