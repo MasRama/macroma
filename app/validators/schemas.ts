@@ -100,6 +100,26 @@ export interface DeleteProductsInput {
   ids: string[];
 }
 
+export interface CreateCarouselInput {
+  title: string;
+  description?: string | null;
+  image_url: string;
+  order?: number;
+  is_active?: boolean;
+}
+
+export interface UpdateCarouselInput {
+  title?: string;
+  description?: string | null;
+  image_url?: string;
+  order?: number;
+  is_active?: boolean;
+}
+
+export interface DeleteCarouselsInput {
+  ids: string[];
+}
+
 
 // ============================================
 // Validator Functions
@@ -775,6 +795,144 @@ export function UpdateProductSchema(data: unknown): ValidationResult<UpdateProdu
  * Delete products validator
  */
 export function DeleteProductsSchema(data: unknown): ValidationResult<DeleteProductsInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { ids } = data as Record<string, unknown>;
+
+  // IDs validation
+  if (!isArray(ids) || ids.length === 0) {
+    errors.ids = ['Minimal satu ID harus dipilih'];
+  } else {
+    const invalidIds = ids.filter(id => !isUUID(id));
+    if (invalidIds.length > 0) {
+      errors.ids = ['Format ID tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  return {
+    success: true,
+    data: {
+      ids: (ids as unknown[]).map(id => String(id)),
+    }
+  };
+}
+
+/**
+ * Create carousel validator
+ */
+export function CreateCarouselSchema(data: unknown): ValidationResult<CreateCarouselInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { title, description, image_url, order, is_active } = data as Record<string, unknown>;
+
+  // Title validation
+  if (!isString(title) || title.trim().length < 3) {
+    errors.title = ['Judul minimal 3 karakter'];
+  } else if (title.length > 255) {
+    errors.title = ['Judul maksimal 255 karakter'];
+  }
+
+  // Image URL validation
+  if (!isString(image_url) || image_url.trim().length === 0) {
+    errors.image_url = ['URL gambar wajib diisi'];
+  }
+
+  // Description validation (optional)
+  if (description !== undefined && description !== null && description !== '') {
+    if (!isString(description)) {
+      errors.description = ['Format deskripsi tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  return {
+    success: true,
+    data: {
+      title: String(title).trim(),
+      description: description ? String(description).trim() : null,
+      image_url: String(image_url).trim(),
+      order: order !== undefined ? Number(order) : 0,
+      is_active: isBoolean(is_active) ? is_active : true,
+    }
+  };
+}
+
+/**
+ * Update carousel validator
+ */
+export function UpdateCarouselSchema(data: unknown): ValidationResult<UpdateCarouselInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { title, description, image_url, order, is_active } = data as Record<string, unknown>;
+
+  // At least one field must be provided
+  const hasAnyField = title !== undefined || description !== undefined || image_url !== undefined || 
+                      order !== undefined || is_active !== undefined;
+  
+  if (!hasAnyField) {
+    errors._root = ['Minimal satu field harus diisi untuk update'];
+  }
+
+  // Title validation (optional)
+  if (title !== undefined && title !== null) {
+    if (!isString(title) || title.trim().length < 3) {
+      errors.title = ['Judul minimal 3 karakter'];
+    } else if (title.length > 255) {
+      errors.title = ['Judul maksimal 255 karakter'];
+    }
+  }
+
+  // Image URL validation (optional)
+  if (image_url !== undefined && image_url !== null) {
+    if (!isString(image_url) || image_url.trim().length === 0) {
+      errors.image_url = ['URL gambar tidak boleh kosong'];
+    }
+  }
+
+  // Description validation (optional)
+  if (description !== undefined && description !== null && description !== '') {
+    if (!isString(description)) {
+      errors.description = ['Format deskripsi tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  const result: UpdateCarouselInput = {};
+  if (title !== undefined) result.title = String(title).trim();
+  if (description !== undefined) result.description = description ? String(description).trim() : null;
+  if (image_url !== undefined) result.image_url = String(image_url).trim();
+  if (order !== undefined) result.order = Number(order);
+  if (is_active !== undefined) result.is_active = Boolean(is_active);
+
+  return { success: true, data: result };
+}
+
+/**
+ * Delete carousels validator
+ */
+export function DeleteCarouselsSchema(data: unknown): ValidationResult<DeleteCarouselsInput> {
   const errors: Record<string, string[]> = {};
   
   if (!isObject(data)) {

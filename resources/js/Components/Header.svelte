@@ -27,6 +27,7 @@
     { href: '/dashboard', label: 'Overview', group: 'dashboard', show: true },  
     { href: '/portfolios', label: 'Portfolios', group: 'portfolios', show: user?.is_admin ?? false },
     { href: '/products', label: 'Products', group: 'products', show: user?.is_admin ?? false },
+    { href: '/carousels', label: 'Carousels', group: 'carousels', show: user?.is_admin ?? false },
     { href: '/users', label: 'Users', group: 'users', show: user?.is_admin ?? false },
     { href: '/profile', label: 'Profile', group: 'profile', show: !!user },
   ];

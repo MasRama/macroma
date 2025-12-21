@@ -45,6 +45,11 @@ export {
   CreateProductSchema,
   UpdateProductSchema,
   DeleteProductsSchema,
+  
+  // Carousel
+  CreateCarouselSchema,
+  UpdateCarouselSchema,
+  DeleteCarouselsSchema,
 } from './schemas';
 
 // Type exports
@@ -64,4 +69,7 @@ export type {
   CreateProductInput,
   UpdateProductInput,
   DeleteProductsInput,
+  CreateCarouselInput,
+  UpdateCarouselInput,
+  DeleteCarouselsInput,
 } from './schemas';

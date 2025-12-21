@@ -18,7 +18,13 @@ class HomeController extends BaseController {
             }
         }
 
-        return response.inertia("landing", { user });
+        const carousels = await DB.from("carousel_images")
+            .where("is_active", true)
+            .orderBy('order', 'asc')
+            .orderBy('created_at', 'desc')
+            .select("*");
+
+        return response.inertia("landing", { user, carousels });
     }
 }
 

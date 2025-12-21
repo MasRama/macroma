@@ -3,6 +3,7 @@
   import { inertia, page } from '@inertiajs/svelte'
   import { fly } from 'svelte/transition'
   import { onMount } from 'svelte'
+  import HeroCarousel from '../Components/HeroCarousel.svelte'
 
   let mounted = false
   onMount(() => { mounted = true })
@@ -16,6 +17,16 @@
     is_admin: boolean;
     is_verified: boolean;
   }
+
+  interface CarouselImage {
+    id: string;
+    title: string;
+    description: string | null;
+    image_url: string;
+    order: number;
+  }
+
+  export let carousels: CarouselImage[] = [];
 
   interface Service {
     title: string;
@@ -184,74 +195,11 @@
           {/if}
         </div>
 
-        <!-- Right: Visual Card -->
+        <!-- Right: Carousel -->
         <div class="relative hidden lg:block">
           {#if mounted}
-            <div in:fly={{ x: 30, duration: 800, delay: 200 }} class="relative">
-              <!-- Glow Effect -->
-              <div class="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-cyan-500/20 rounded-[2rem] blur-2xl"></div>
-              
-              <!-- Main Card -->
-              <div class="relative rounded-3xl border border-slate-700/50 bg-slate-900/80 backdrop-blur-xl p-8 shadow-2xl">
-                <!-- Card Header -->
-                <div class="flex items-center justify-between mb-8">
-                  <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                    </div>
-                    <div>
-                      <p class="text-sm font-semibold text-white">System Dashboard</p>
-                      <p class="text-xs text-slate-500">Real-time monitoring</p>
-                    </div>
-                  </div>
-                  <span class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                    <span class="text-[10px] font-medium text-green-400">LIVE</span>
-                  </span>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                  <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-4">
-                    <p class="text-xs text-slate-500 mb-1">Active Users</p>
-                    <p class="text-2xl font-bold text-white">2,847</p>
-                    <p class="text-xs text-green-400 mt-1">↑ 12% this week</p>
-                  </div>
-                  <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-4">
-                    <p class="text-xs text-slate-500 mb-1">System Load</p>
-                    <p class="text-2xl font-bold text-white">23%</p>
-                    <p class="text-xs text-blue-400 mt-1">Optimal</p>
-                  </div>
-                </div>
-
-                <!-- Progress Bar -->
-                <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-4">
-                  <div class="flex justify-between items-center mb-3">
-                    <p class="text-xs text-slate-500">Project Completion</p>
-                    <p class="text-xs font-semibold text-blue-400">87%</p>
-                  </div>
-                  <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-                    <div class="h-full w-[87%] bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
-                  </div>
-                </div>
-
-                <!-- Code Snippet -->
-                <div class="mt-6 rounded-2xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs">
-                  <div class="flex items-center gap-2 mb-3">
-                    <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-                    <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
-                    <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
-                  </div>
-                  <code class="text-slate-400">
-                    <span class="text-blue-400">const</span> <span class="text-cyan-300">solution</span> = <span class="text-yellow-300">await</span> macroma.<span class="text-green-400">solve</span>(problem);
-                  </code>
-                </div>
-              </div>
-
-              <!-- Floating Badge -->
-              <div class="absolute -top-4 -right-4 px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg shadow-blue-500/30">
-                <span class="text-xs font-bold text-white">Enterprise Ready</span>
-              </div>
+            <div in:fly={{ x: 30, duration: 800, delay: 200 }} class="relative h-[500px]">
+              <HeroCarousel images={carousels} />
             </div>
           {/if}
         </div>

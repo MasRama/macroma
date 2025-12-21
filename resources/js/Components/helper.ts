@@ -188,6 +188,35 @@ export async function api<T = unknown>(
   }
 }
 
+/**
+ * Upload image to server and return the URL
+ */
+export async function uploadImage(file: File): Promise<string | null> {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const axios = (await import('axios')).default;
+    const response = await axios.post('/assets/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-CSRF-Token': getCSRFToken() || '',
+      },
+    });
+
+    if (response.data.success && response.data.data?.url) {
+      Toast('Gambar berhasil diupload', 'success');
+      return response.data.data.url;
+    } else {
+      Toast('Gagal upload gambar', 'error');
+      return null;
+    }
+  } catch (error) {
+    Toast('Gagal upload gambar', 'error');
+    return null;
+  }
+}
+
 type ToastType = 'success' | 'error' | 'warning' | 'info';
 
 /**

@@ -11,6 +11,7 @@ import HomeController from "@controllers/HomeController";
 import AssetController from "@controllers/AssetController";
 import PortfolioController from "@controllers/PortfolioController";
 import ProductController from "@controllers/ProductController";
+import CarouselController from "@controllers/CarouselController";
 import { strictRateLimit } from "@middlewares/rateLimit";
 
 const Route = createRouter();
@@ -105,6 +106,22 @@ Route.get("/products", [Auth], ProductController.productsPage);
 Route.post("/products", [Auth], ProductController.createProduct);
 Route.put("/products/:id", [Auth], ProductController.updateProduct);
 Route.delete("/products", [Auth], ProductController.deleteProducts);
+
+/**
+ * Carousel Routes
+ * Routes for managing carousel images
+ * ------------------------------------------------
+ * GET    /carousels     - List all carousels (admin only)
+ * POST   /carousels     - Create carousel (admin only)
+ * PUT    /carousels/:id - Update carousel (admin only)
+ * DELETE /carousels     - Delete carousels (admin only)
+ * GET    /api/carousels/active - Get active carousels (public)
+ */
+Route.get("/carousels", [Auth], CarouselController.carouselsPage);
+Route.post("/carousels", [Auth], CarouselController.createCarousel);
+Route.put("/carousels/:id", [Auth], CarouselController.updateCarousel);
+Route.delete("/carousels", [Auth], CarouselController.deleteCarousels);
+Route.get("/api/carousels/active", CarouselController.getActiveCarousels);
 
 // Avatar upload endpoint (local storage) - rate limited to prevent abuse
 Route.post("/assets/avatar", [Auth, strictRateLimit()], AssetController.uploadAsset);
