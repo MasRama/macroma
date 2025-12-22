@@ -50,18 +50,22 @@
 
   async function handleSubmit(event: CustomEvent<ProductForm>): Promise<void> {
     const formData = event.detail;
-    if (!formData.image_url || !formData.description || !formData.type) {
-      Toast('Gambar, deskripsi, dan tipe wajib diisi', 'error');
+    if (!formData.name || !formData.tagline || !formData.desc || !formData.badge || !formData.image_url || !formData.type) {
+      Toast('Semua field wajib diisi kecuali hyperlink', 'error');
       return;
     }
 
     isSubmitting = true;
 
     const payload = {
+      name: formData.name,
+      tagline: formData.tagline,
+      desc: formData.desc,
+      badge: formData.badge,
       image_url: formData.image_url,
-      description: formData.description,
       hyperlink: formData.hyperlink || null,
-      type: formData.type
+      type: formData.type,
+      is_featured: formData.is_featured
     };
 
     const result = mode === 'create'
@@ -147,7 +151,7 @@
             <div class="aspect-video bg-slate-800 overflow-hidden relative">
               <img 
                 src={productItem.image_url} 
-                alt={productItem.description.substring(0, 50)}
+                alt={productItem.name}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 on:error={(e) => {
                   const target = e.target as HTMLImageElement;
@@ -162,8 +166,15 @@
             
             <!-- Content -->
             <div class="p-4">
-              <p class="text-sm text-slate-300 mb-3 line-clamp-3">
-                {productItem.description}
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="text-base font-semibold text-slate-100">{productItem.name}</h3>
+                <span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-[10px] font-bold uppercase tracking-wider text-blue-400 border border-blue-500/20">
+                  {productItem.badge}
+                </span>
+              </div>
+              <p class="text-xs text-blue-400 font-medium uppercase tracking-wider mb-2">{productItem.tagline}</p>
+              <p class="text-sm text-slate-300 mb-3 line-clamp-2">
+                {productItem.desc}
               </p>
               
               {#if productItem.hyperlink}

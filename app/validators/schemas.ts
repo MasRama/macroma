@@ -83,17 +83,25 @@ export interface DeletePortfoliosInput {
 }
 
 export interface CreateProductInput {
+  name: string;
+  tagline: string;
+  desc: string;
+  badge: string;
   image_url: string;
-  description: string;
   hyperlink?: string | null;
   type: string;
+  is_featured?: boolean;
 }
 
 export interface UpdateProductInput {
+  name?: string;
+  tagline?: string;
+  desc?: string;
+  badge?: string;
   image_url?: string;
-  description?: string;
   hyperlink?: string | null;
   type?: string;
+  is_featured?: boolean;
 }
 
 export interface DeleteProductsInput {
@@ -688,18 +696,39 @@ export function CreateProductSchema(data: unknown): ValidationResult<CreateProdu
     return { success: false, errors: { _root: ['Data harus berupa object'] } };
   }
 
-  const { image_url, description, hyperlink, type } = data as Record<string, unknown>;
+  const { name, tagline, desc, badge, image_url, hyperlink, type, is_featured } = data as Record<string, unknown>;
+
+  // Name validation
+  if (!isString(name) || name.trim().length < 3) {
+    errors.name = ['Nama produk minimal 3 karakter'];
+  } else if (name.length > 100) {
+    errors.name = ['Nama produk maksimal 100 karakter'];
+  }
+
+  // Tagline validation
+  if (!isString(tagline) || tagline.trim().length < 3) {
+    errors.tagline = ['Tagline minimal 3 karakter'];
+  } else if (tagline.length > 200) {
+    errors.tagline = ['Tagline maksimal 200 karakter'];
+  }
+
+  // Description validation
+  if (!isString(desc) || desc.trim().length < 10) {
+    errors.desc = ['Deskripsi minimal 10 karakter'];
+  } else if (desc.length > 1000) {
+    errors.desc = ['Deskripsi maksimal 1000 karakter'];
+  }
+
+  // Badge validation
+  if (!isString(badge) || badge.trim().length === 0) {
+    errors.badge = ['Badge wajib diisi'];
+  } else if (badge.length > 50) {
+    errors.badge = ['Badge maksimal 50 karakter'];
+  }
 
   // Image URL validation
   if (!isString(image_url) || image_url.trim().length === 0) {
     errors.image_url = ['URL gambar wajib diisi'];
-  }
-
-  // Description validation
-  if (!isString(description) || description.trim().length < 10) {
-    errors.description = ['Deskripsi minimal 10 karakter'];
-  } else if (description.length > 1000) {
-    errors.description = ['Deskripsi maksimal 1000 karakter'];
   }
 
   // Type validation
@@ -714,6 +743,13 @@ export function CreateProductSchema(data: unknown): ValidationResult<CreateProdu
     }
   }
 
+  // is_featured validation (optional)
+  if (is_featured !== undefined && is_featured !== null) {
+    if (!isBoolean(is_featured)) {
+      errors.is_featured = ['is_featured harus berupa boolean'];
+    }
+  }
+
   if (Object.keys(errors).length > 0) {
     return { success: false, errors };
   }
@@ -721,10 +757,14 @@ export function CreateProductSchema(data: unknown): ValidationResult<CreateProdu
   return {
     success: true,
     data: {
+      name: String(name).trim(),
+      tagline: String(tagline).trim(),
+      desc: String(desc).trim(),
+      badge: String(badge).trim(),
       image_url: String(image_url).trim(),
-      description: String(description).trim(),
       hyperlink: hyperlink ? String(hyperlink).trim() : null,
       type: String(type).trim(),
+      is_featured: is_featured !== undefined ? Boolean(is_featured) : undefined,
     }
   };
 }
@@ -739,28 +779,55 @@ export function UpdateProductSchema(data: unknown): ValidationResult<UpdateProdu
     return { success: false, errors: { _root: ['Data harus berupa object'] } };
   }
 
-  const { image_url, description, hyperlink, type } = data as Record<string, unknown>;
+  const { name, tagline, desc, badge, image_url, hyperlink, type, is_featured } = data as Record<string, unknown>;
 
   // At least one field must be provided
-  const hasAnyField = image_url !== undefined || description !== undefined || hyperlink !== undefined || type !== undefined;
+  const hasAnyField = name !== undefined || tagline !== undefined || desc !== undefined || badge !== undefined || image_url !== undefined || hyperlink !== undefined || type !== undefined || is_featured !== undefined;
   
   if (!hasAnyField) {
     errors._root = ['Minimal satu field harus diisi untuk update'];
+  }
+
+  // Name validation (optional)
+  if (name !== undefined && name !== null) {
+    if (!isString(name) || name.trim().length < 3) {
+      errors.name = ['Nama produk minimal 3 karakter'];
+    } else if (name.length > 100) {
+      errors.name = ['Nama produk maksimal 100 karakter'];
+    }
+  }
+
+  // Tagline validation (optional)
+  if (tagline !== undefined && tagline !== null) {
+    if (!isString(tagline) || tagline.trim().length < 3) {
+      errors.tagline = ['Tagline minimal 3 karakter'];
+    } else if (tagline.length > 200) {
+      errors.tagline = ['Tagline maksimal 200 karakter'];
+    }
+  }
+
+  // Description validation (optional)
+  if (desc !== undefined && desc !== null) {
+    if (!isString(desc) || desc.trim().length < 10) {
+      errors.desc = ['Deskripsi minimal 10 karakter'];
+    } else if (desc.length > 1000) {
+      errors.desc = ['Deskripsi maksimal 1000 karakter'];
+    }
+  }
+
+  // Badge validation (optional)
+  if (badge !== undefined && badge !== null) {
+    if (!isString(badge) || badge.trim().length === 0) {
+      errors.badge = ['Badge tidak boleh kosong'];
+    } else if (badge.length > 50) {
+      errors.badge = ['Badge maksimal 50 karakter'];
+    }
   }
 
   // Image URL validation (optional)
   if (image_url !== undefined && image_url !== null) {
     if (!isString(image_url) || image_url.trim().length === 0) {
       errors.image_url = ['URL gambar tidak boleh kosong'];
-    }
-  }
-
-  // Description validation (optional)
-  if (description !== undefined && description !== null) {
-    if (!isString(description) || description.trim().length < 10) {
-      errors.description = ['Deskripsi minimal 10 karakter'];
-    } else if (description.length > 1000) {
-      errors.description = ['Deskripsi maksimal 1000 karakter'];
     }
   }
 
@@ -778,15 +845,26 @@ export function UpdateProductSchema(data: unknown): ValidationResult<UpdateProdu
     }
   }
 
+  // is_featured validation (optional)
+  if (is_featured !== undefined && is_featured !== null) {
+    if (!isBoolean(is_featured)) {
+      errors.is_featured = ['is_featured harus berupa boolean'];
+    }
+  }
+
   if (Object.keys(errors).length > 0) {
     return { success: false, errors };
   }
 
   const result: UpdateProductInput = {};
+  if (name !== undefined) result.name = String(name).trim();
+  if (tagline !== undefined) result.tagline = String(tagline).trim();
+  if (desc !== undefined) result.desc = String(desc).trim();
+  if (badge !== undefined) result.badge = String(badge).trim();
   if (image_url !== undefined) result.image_url = String(image_url).trim();
-  if (description !== undefined) result.description = String(description).trim();
   if (hyperlink !== undefined) result.hyperlink = hyperlink ? String(hyperlink).trim() : null;
   if (type !== undefined) result.type = String(type).trim();
+  if (is_featured !== undefined) result.is_featured = Boolean(is_featured);
 
   return { success: true, data: result };
 }

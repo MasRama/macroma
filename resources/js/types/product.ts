@@ -10,10 +10,14 @@
  */
 export interface Product {
   id: string;
+  name: string;
+  tagline: string;
+  desc: string;
+  badge: string;
   image_url: string;
-  description: string;
   hyperlink?: string;
   type: string;
+  is_featured: boolean;
   user_id?: string;
   created_at?: string;
   updated_at?: string;
@@ -24,10 +28,14 @@ export interface Product {
  */
 export interface ProductForm {
   id: string | null;
+  name: string;
+  tagline: string;
+  desc: string;
+  badge: string;
   image_url: string;
-  description: string;
   hyperlink: string;
   type: string;
+  is_featured: boolean;
 }
 
 /**
@@ -59,10 +67,14 @@ export const PRODUCT_TYPES = [
 export function createEmptyProductForm(): ProductForm {
   return {
     id: null,
+    name: '',
+    tagline: '',
+    desc: '',
+    badge: '',
     image_url: '',
-    description: '',
     hyperlink: '',
-    type: 'software'
+    type: 'software',
+    is_featured: false
   };
 }
 
@@ -72,9 +84,13 @@ export function createEmptyProductForm(): ProductForm {
 export function productToForm(product: Product): ProductForm {
   return {
     id: product.id,
+    name: product.name || '',
+    tagline: product.tagline || '',
+    desc: product.desc || '',
+    badge: product.badge || '',
     image_url: product.image_url || '',
-    description: product.description || '',
     hyperlink: product.hyperlink || '',
-    type: product.type || 'software'
+    type: product.type || 'software',
+    is_featured: product.is_featured || false
   };
 }

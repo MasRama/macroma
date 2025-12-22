@@ -38,7 +38,9 @@ class ProductController extends BaseController {
 
       if (search) {
          query = query.where(function() {
-            this.where('description', 'like', `%${search}%`)
+            this.where('name', 'like', `%${search}%`)
+                .orWhere('tagline', 'like', `%${search}%`)
+                .orWhere('desc', 'like', `%${search}%`)
                 .orWhere('hyperlink', 'like', `%${search}%`)
                 .orWhere('type', 'like', `%${search}%`);
          });
@@ -70,10 +72,14 @@ class ProductController extends BaseController {
 
       const product = {
          id: randomUUID(),
+         name: data.name,
+         tagline: data.tagline,
+         desc: data.desc,
+         badge: data.badge,
          image_url: data.image_url,
-         description: data.description,
          hyperlink: data.hyperlink || null,
          type: data.type,
+         is_featured: data.is_featured !== undefined ? data.is_featured : false,
          user_id: request.user.id,
          created_at: now,
          updated_at: now,
@@ -98,10 +104,14 @@ class ProductController extends BaseController {
 
       const payload: Record<string, unknown> = {};
 
+      if (data.name !== undefined) payload.name = data.name;
+      if (data.tagline !== undefined) payload.tagline = data.tagline;
+      if (data.desc !== undefined) payload.desc = data.desc;
+      if (data.badge !== undefined) payload.badge = data.badge;
       if (data.image_url !== undefined) payload.image_url = data.image_url;
-      if (data.description !== undefined) payload.description = data.description;
       if (data.hyperlink !== undefined) payload.hyperlink = data.hyperlink;
       if (data.type !== undefined) payload.type = data.type;
+      if (data.is_featured !== undefined) payload.is_featured = data.is_featured;
 
       payload.updated_at = dayjs().valueOf();
 

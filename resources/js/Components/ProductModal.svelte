@@ -150,6 +150,50 @@
         </div>
 
         <div class="space-y-1">
+          <label for="product-name" class="block text-xs font-medium text-slate-400">Nama Produk</label>
+          <input
+            id="product-name"
+            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none"
+            type="text"
+            bind:value={form.name}
+            placeholder="Nama produk (minimal 3 karakter)"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label for="product-tagline" class="block text-xs font-medium text-slate-400">Tagline</label>
+          <input
+            id="product-tagline"
+            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none"
+            type="text"
+            bind:value={form.tagline}
+            placeholder="Tagline produk (minimal 3 karakter)"
+          />
+        </div>
+
+        <div class="space-y-1">
+          <label for="product-desc" class="block text-xs font-medium text-slate-400">Deskripsi</label>
+          <textarea
+            id="product-desc"
+            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none resize-none"
+            rows="4"
+            bind:value={form.desc}
+            placeholder="Deskripsi produk (minimal 10 karakter)"
+          ></textarea>
+        </div>
+
+        <div class="space-y-1">
+          <label for="product-badge" class="block text-xs font-medium text-slate-400">Badge</label>
+          <input
+            id="product-badge"
+            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none"
+            type="text"
+            bind:value={form.badge}
+            placeholder="Badge produk (contoh: New, Flagship, Security)"
+          />
+        </div>
+
+        <div class="space-y-1">
           <label for="product-type" class="block text-xs font-medium text-slate-400">Tipe Produk</label>
           <select
             id="product-type"
@@ -163,17 +207,6 @@
         </div>
 
         <div class="space-y-1">
-          <label for="product-description" class="block text-xs font-medium text-slate-400">Deskripsi</label>
-          <textarea
-            id="product-description"
-            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none resize-none"
-            rows="4"
-            bind:value={form.description}
-            placeholder="Deskripsi produk (minimal 10 karakter)"
-          ></textarea>
-        </div>
-
-        <div class="space-y-1">
           <label for="product-hyperlink" class="block text-xs font-medium text-slate-400">Hyperlink (opsional)</label>
           <input
             id="product-hyperlink"
@@ -182,6 +215,18 @@
             bind:value={form.hyperlink}
             placeholder="https://example.com/product"
           />
+        </div>
+
+        <div class="flex items-center gap-2">
+          <input
+            id="product-featured"
+            type="checkbox"
+            class="w-4 h-4 rounded bg-slate-900/60 border-slate-700 text-emerald-500 focus:ring-2 focus:ring-emerald-400/40"
+            bind:checked={form.is_featured}
+          />
+          <label for="product-featured" class="text-xs font-medium text-slate-400 cursor-pointer">
+            Tampilkan sebagai produk unggulan di landing page
+          </label>
         </div>
 
         <div class="flex justify-end gap-2 pt-2">

@@ -44,11 +44,18 @@
   }
 
   interface Product {
+    id: string;
     name: string;
     tagline: string;
     desc: string;
     badge: string;
+    image_url: string;
+    hyperlink?: string | null;
+    type: string;
+    is_featured: boolean;
   }
+
+  export let products: Product[] = [];
 
   let user = $page.props.user as User | undefined
 
@@ -68,27 +75,6 @@
       title: "Digital Transformation",
       desc: "Konsultasi strategis untuk mendigitalkan proses manual, meningkatkan efisiensi, dan mengurangi human error.",
       icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />`
-    }
-  ];
-
-  const products: Product[] = [
-    {
-      name: "MacroFlow",
-      tagline: "Enterprise ERP System",
-      desc: "Sistem manajemen sumber daya perusahaan terintegrasi untuk efisiensi operasional maksimal.",
-      badge: "Flagship"
-    },
-    {
-      name: "MacroInsight",
-      tagline: "Data Analytics Platform",
-      desc: "Ubah data mentah menjadi keputusan bisnis cerdas dengan visualisasi real-time.",
-      badge: "New"
-    },
-    {
-      name: "MacroGuard",
-      tagline: "Cybersecurity Suite",
-      desc: "Proteksi menyeluruh untuk aset digital dan infrastruktur sistem Anda.",
-      badge: "Security"
     }
   ];
 </script>
@@ -288,30 +274,62 @@
         </a>
       </div>
 
-      <div class="grid lg:grid-cols-3 gap-8">
-        {#each products as product, i}
-          <div class="group rounded-3xl bg-slate-950 border border-slate-800 p-2 hover:border-blue-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5">
-            <div class="h-full rounded-2xl bg-gradient-to-b from-slate-900/80 to-slate-900/50 p-6 flex flex-col">
-              <div class="flex justify-between items-start mb-6">
-                <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/20">
-                  {product.name.charAt(0)}
+      {#if products && products.length > 0}
+        <div class="grid lg:grid-cols-3 gap-8">
+          {#each products as product}
+            <div class="group rounded-3xl bg-slate-950 border border-slate-800 p-2 hover:border-blue-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5">
+              <div class="h-full rounded-2xl bg-gradient-to-b from-slate-900/80 to-slate-900/50 overflow-hidden flex flex-col">
+                <!-- Product Image -->
+                <div class="aspect-video bg-slate-800 overflow-hidden relative">
+                  <img 
+                    src={product.image_url} 
+                    alt={product.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    on:error={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://via.placeholder.com/400x225?text=No+Image';
+                    }}
+                  />
+                  <!-- Badge on image -->
+                  <span class="absolute top-2 right-2 px-3 py-1 rounded-full bg-blue-500/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-white border border-blue-400/20 shadow-lg">
+                    {product.badge}
+                  </span>
                 </div>
-                <span class="px-3 py-1 rounded-full bg-blue-500/10 text-[10px] font-bold uppercase tracking-wider text-blue-400 border border-blue-500/20">
-                  {product.badge}
-                </span>
-              </div>
-              
-              <h3 class="text-xl font-bold text-slate-50 mb-1 group-hover:text-blue-400 transition-colors">{product.name}</h3>
-              <p class="text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">{product.tagline}</p>
-              <p class="text-slate-400 text-sm mb-8 flex-grow">{product.desc}</p>
 
-              <button class="w-full rounded-xl bg-slate-800 py-3 text-sm font-medium text-slate-300 hover:bg-blue-600 hover:text-white transition-all border border-slate-700/50 hover:border-blue-600">
-                Pelajari Selengkapnya
-              </button>
+                <!-- Product Content -->
+                <div class="p-6 flex flex-col flex-grow">
+                  <h3 class="text-xl font-bold text-slate-50 mb-1 group-hover:text-blue-400 transition-colors">{product.name}</h3>
+                  <p class="text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">{product.tagline}</p>
+                  <p class="text-slate-400 text-sm mb-8 flex-grow">{product.desc}</p>
+
+                  {#if product.hyperlink}
+                    <a 
+                      href={product.hyperlink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="w-full rounded-xl bg-slate-800 py-3 text-sm font-medium text-slate-300 hover:bg-blue-600 hover:text-white transition-all border border-slate-700/50 hover:border-blue-600 text-center block"
+                    >
+                      Pelajari Selengkapnya
+                    </a>
+                  {:else}
+                    <button class="w-full rounded-xl bg-slate-800 py-3 text-sm font-medium text-slate-300 hover:bg-blue-600 hover:text-white transition-all border border-slate-700/50 hover:border-blue-600">
+                      Pelajari Selengkapnya
+                    </button>
+                  {/if}
+                </div>
+              </div>
             </div>
-          </div>
-        {/each}
-      </div>
+          {/each}
+        </div>
+      {:else}
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-12 text-center">
+          <svg class="w-16 h-16 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <p class="text-slate-400 text-lg mb-2">Belum ada produk unggulan untuk ditampilkan</p>
+          <p class="text-slate-500 text-sm">Produk unggulan akan segera ditambahkan.</p>
+        </div>
+      {/if}
     </div>
   </section>
 

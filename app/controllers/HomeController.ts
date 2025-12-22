@@ -29,7 +29,13 @@ class HomeController extends BaseController {
             .limit(6)
             .select("*");
 
-        return response.inertia("landing", { user, carousels, portfolios });
+        const products = await DB.from("products")
+            .where("is_featured", true)
+            .orderBy('created_at', 'desc')
+            .limit(3)
+            .select("*");
+
+        return response.inertia("landing", { user, carousels, portfolios, products });
     }
 }
 
