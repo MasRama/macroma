@@ -163,7 +163,7 @@
             </h1>
 
             <p in:fly={{ x: -30, duration: 800, delay: 200 }} class="text-lg sm:text-xl text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Kami adalah partner teknologi yang mengubah <span class="text-white font-medium">tantangan operasional</span> menjadi <span class="text-blue-400 font-medium">solusi digital yang elegan</span>. Dari konsep hingga deployment.
+              Macroma adalah partner teknologi yang berfokus pada pengembangan <span class="text-white font-medium">sistem operasional digital untuk institusi pendidikan</span>, membantu mereka meninggalkan proses manual dan bekerja lebih efisien. Kami juga melayani <span class="text-blue-400 font-medium">UMKM dan perusahaan skala besar</span> dengan kebutuhan sistem custom.
             </p>
 
             <div in:fly={{ x: -30, duration: 800, delay: 300 }} class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
@@ -175,13 +175,13 @@
               </a>
               <a href="https://wa.me/6285168657868?text=Halo%20Macroma%20Media%2C%20saya%20ingin%20berkonsultasi%20gratis%20tentang%20layanan%20Anda." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/50 px-8 py-4 text-sm font-semibold text-slate-300 backdrop-blur-sm transition-all hover:bg-slate-800 hover:text-white hover:border-slate-600">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                Konsultasi Gratis
+                Diskusi Kebutuhan Sistem Institusi Anda
               </a>
             </div>
 
             <!-- Trust Badges -->
             <div in:fly={{ x: -30, duration: 800, delay: 400 }} class="mt-12 pt-8 border-t border-slate-800">
-              <p class="text-xs uppercase tracking-wider text-slate-500 mb-4">Dipercaya oleh berbagai client</p>
+              <p class="text-xs uppercase tracking-wider text-slate-500 mb-4">Berfokus pada institusi pendidikan, kami juga dipercaya oleh UMKM dan perusahaan skala besar untuk pengembangan sistem custom.</p>
               <div class="flex items-center gap-8 justify-center lg:justify-start opacity-50">
                 <span class="text-slate-400 font-bold text-lg">Instansi Pendidikan</span>
                 <span class="text-slate-400 font-bold text-lg">Pemerintahan</span>
@@ -232,8 +232,8 @@
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-16">
         <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">Our Services</span>
-        <h2 class="text-3xl md:text-4xl font-bold text-slate-50 mb-4">Solving Problems with Systems</h2>
-        <p class="text-slate-400 max-w-2xl mx-auto">Setiap pekerjaan memiliki langkah kerja yang unik, dan sistem digital harus mampu menyesuaikannya. Kami menyediakan layanan pembuatan aplikasi by request untuk membantu pekerjaan Anda menjadi lebih cepat, rapi, dan efisien.</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-50 mb-4">Solusi Kami untuk Institusi Pendidikan</h2>
+        <p class="text-slate-400 max-w-2xl mx-auto">Kami merancang dan membangun sistem operasional pendidikan yang disesuaikan dengan alur kerja institusi Anda — bukan sistem generik yang memaksa Anda beradaptasi.</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
@@ -413,7 +413,7 @@
       <div class="text-center mb-16">
         <span class="inline-block px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-4">Tentang Kami</span>
         <h2 class="text-3xl md:text-4xl font-bold text-slate-50 mb-4">Mengenal Lebih Dekat</h2>
-        <p class="text-slate-400 max-w-2xl mx-auto">Partner teknologi terpercaya untuk transformasi digital bisnis Anda.</p>
+        <p class="text-slate-400 max-w-2xl mx-auto">Macroma adalah partner teknologi yang berfokus pada pengembangan sistem operasional digital untuk institusi pendidikan. Kami membantu menggantikan proses manual dengan sistem yang lebih efisien, rapi, dan terukur.</p>
       </div>
 
       <div class="grid lg:grid-cols-3 gap-8">
@@ -532,7 +532,7 @@
       <div class="relative z-10">
         <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-6">Let's Talk</span>
         <h2 class="text-3xl md:text-5xl font-bold text-slate-50 mb-6">Siap Transformasi Digital?</h2>
-        <p class="text-slate-400 max-w-xl mx-auto mb-10 text-lg">Konsultasikan kebutuhan sistem IT perusahaan Anda dengan tim ahli Macroma Media.</p>
+        <p class="text-slate-400 max-w-xl mx-auto mb-10 text-lg">Konsultasikan kebutuhan sistem IT institusi Anda dengan tim ahli Macroma Media.</p>
         <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 text-sm font-bold text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02]">
           Hubungi Kami Sekarang
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
