@@ -127,7 +127,7 @@
       {/if}
 
       <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg shadow-blue-500/30">
-        <span class="text-xs font-bold text-white">Featured</span>
+        <span class="text-xs font-bold text-white">About Us</span>
       </div>
     </div>
   </div>
