@@ -32,6 +32,7 @@
     id: string;
     image_url: string;
     description: string;
+    badge: string;
     hyperlink?: string | null;
   }
 
@@ -347,7 +348,7 @@
           {#each portfolios as portfolio}
             <div class="group rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/5">
               <!-- Image -->
-              <div class="aspect-video bg-slate-800 overflow-hidden">
+              <div class="aspect-video bg-slate-800 overflow-hidden relative">
                 <img 
                   src={portfolio.image_url} 
                   alt={portfolio.description}
@@ -357,6 +358,12 @@
                     target.src = 'https://via.placeholder.com/400x225?text=No+Image';
                   }}
                 />
+                <!-- Badge on image -->
+                {#if portfolio.badge}
+                  <span class="absolute top-2 right-2 px-2 py-1 rounded-full bg-purple-500/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-white border border-purple-400/20 shadow-lg">
+                    {portfolio.badge}
+                  </span>
+                {/if}
               </div>
               
               <!-- Content -->
