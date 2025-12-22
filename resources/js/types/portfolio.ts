@@ -12,6 +12,7 @@ export interface Portfolio {
   id: string;
   image_url: string;
   description: string;
+  badge: string;
   hyperlink?: string;
   user_id?: string;
   created_at?: string;
@@ -25,6 +26,7 @@ export interface PortfolioForm {
   id: string | null;
   image_url: string;
   description: string;
+  badge: string;
   hyperlink: string;
 }
 
@@ -48,6 +50,7 @@ export function createEmptyPortfolioForm(): PortfolioForm {
     id: null,
     image_url: '',
     description: '',
+    badge: '',
     hyperlink: ''
   };
 }
@@ -60,6 +63,7 @@ export function portfolioToForm(portfolio: Portfolio): PortfolioForm {
     id: portfolio.id,
     image_url: portfolio.image_url || '',
     description: portfolio.description || '',
+    badge: portfolio.badge || '',
     hyperlink: portfolio.hyperlink || ''
   };
 }

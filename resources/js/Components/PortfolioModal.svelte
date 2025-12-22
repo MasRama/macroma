@@ -160,6 +160,17 @@
         </div>
 
         <div class="space-y-1">
+          <label for="portfolio-badge" class="block text-xs font-medium text-slate-400">Badge</label>
+          <input
+            id="portfolio-badge"
+            class="w-full px-3 py-2.5 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-50 focus:ring-2 focus:ring-emerald-400/40 focus:border-emerald-400 outline-none"
+            type="text"
+            bind:value={form.badge}
+            placeholder="Badge portfolio (contoh: Web App, Mobile, Design)"
+          />
+        </div>
+
+        <div class="space-y-1">
           <label for="portfolio-hyperlink" class="block text-xs font-medium text-slate-400">Hyperlink (opsional)</label>
           <input
             id="portfolio-hyperlink"

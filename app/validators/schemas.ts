@@ -69,12 +69,14 @@ export interface ChangeProfileInput {
 export interface CreatePortfolioInput {
   image_url: string;
   description: string;
+  badge: string;
   hyperlink?: string | null;
 }
 
 export interface UpdatePortfolioInput {
   image_url?: string;
   description?: string;
+  badge?: string;
   hyperlink?: string | null;
 }
 
@@ -563,7 +565,7 @@ export function CreatePortfolioSchema(data: unknown): ValidationResult<CreatePor
     return { success: false, errors: { _root: ['Data harus berupa object'] } };
   }
 
-  const { image_url, description, hyperlink } = data as Record<string, unknown>;
+  const { image_url, description, badge, hyperlink } = data as Record<string, unknown>;
 
   // Image URL validation
   if (!isString(image_url) || image_url.trim().length === 0) {
@@ -575,6 +577,13 @@ export function CreatePortfolioSchema(data: unknown): ValidationResult<CreatePor
     errors.description = ['Deskripsi minimal 10 karakter'];
   } else if (description.length > 1000) {
     errors.description = ['Deskripsi maksimal 1000 karakter'];
+  }
+
+  // Badge validation
+  if (!isString(badge) || badge.trim().length === 0) {
+    errors.badge = ['Badge wajib diisi'];
+  } else if (badge.length > 50) {
+    errors.badge = ['Badge maksimal 50 karakter'];
   }
 
   // Hyperlink validation (optional)
@@ -593,6 +602,7 @@ export function CreatePortfolioSchema(data: unknown): ValidationResult<CreatePor
     data: {
       image_url: String(image_url).trim(),
       description: String(description).trim(),
+      badge: String(badge).trim(),
       hyperlink: hyperlink ? String(hyperlink).trim() : null,
     }
   };
@@ -608,10 +618,10 @@ export function UpdatePortfolioSchema(data: unknown): ValidationResult<UpdatePor
     return { success: false, errors: { _root: ['Data harus berupa object'] } };
   }
 
-  const { image_url, description, hyperlink } = data as Record<string, unknown>;
+  const { image_url, description, badge, hyperlink } = data as Record<string, unknown>;
 
   // At least one field must be provided
-  const hasAnyField = image_url !== undefined || description !== undefined || hyperlink !== undefined;
+  const hasAnyField = image_url !== undefined || description !== undefined || badge !== undefined || hyperlink !== undefined;
   
   if (!hasAnyField) {
     errors._root = ['Minimal satu field harus diisi untuk update'];
@@ -633,6 +643,15 @@ export function UpdatePortfolioSchema(data: unknown): ValidationResult<UpdatePor
     }
   }
 
+  // Badge validation (optional)
+  if (badge !== undefined && badge !== null) {
+    if (!isString(badge) || badge.trim().length === 0) {
+      errors.badge = ['Badge tidak boleh kosong'];
+    } else if (badge.length > 50) {
+      errors.badge = ['Badge maksimal 50 karakter'];
+    }
+  }
+
   // Hyperlink validation (optional)
   if (hyperlink !== undefined && hyperlink !== null && hyperlink !== '') {
     if (!isString(hyperlink)) {
@@ -647,6 +666,7 @@ export function UpdatePortfolioSchema(data: unknown): ValidationResult<UpdatePor
   const result: UpdatePortfolioInput = {};
   if (image_url !== undefined) result.image_url = String(image_url).trim();
   if (description !== undefined) result.description = String(description).trim();
+  if (badge !== undefined) result.badge = String(badge).trim();
   if (hyperlink !== undefined) result.hyperlink = hyperlink ? String(hyperlink).trim() : null;
 
   return { success: true, data: result };

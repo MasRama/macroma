@@ -59,6 +59,7 @@
     const payload = {
       image_url: formData.image_url,
       description: formData.description,
+      badge: formData.badge,
       hyperlink: formData.hyperlink || null
     };
 
@@ -132,7 +133,7 @@
             in:fly={{ y: 20, duration: 300 }}
           >
             <!-- Image -->
-            <div class="aspect-video bg-slate-800 overflow-hidden">
+            <div class="aspect-video bg-slate-800 overflow-hidden relative">
               <img 
                 src={portfolioItem.image_url} 
                 alt={truncateText(portfolioItem.description, 50)}
@@ -142,6 +143,12 @@
                   target.src = 'https://via.placeholder.com/400x225?text=No+Image';
                 }}
               />
+              <!-- Badge on image -->
+              {#if portfolioItem.badge}
+                <span class="absolute top-2 right-2 px-2 py-1 rounded-full bg-blue-500/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-white border border-blue-400/20 shadow-lg">
+                  {portfolioItem.badge}
+                </span>
+              {/if}
             </div>
             
             <!-- Content -->

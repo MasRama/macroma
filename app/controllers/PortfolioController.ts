@@ -65,6 +65,7 @@ class PortfolioController extends BaseController {
          id: randomUUID(),
          image_url: data.image_url,
          description: data.description,
+         badge: data.badge,
          hyperlink: data.hyperlink || null,
          user_id: request.user.id,
          created_at: now,
@@ -92,6 +93,7 @@ class PortfolioController extends BaseController {
 
       if (data.image_url !== undefined) payload.image_url = data.image_url;
       if (data.description !== undefined) payload.description = data.description;
+      if (data.badge !== undefined) payload.badge = data.badge;
       if (data.hyperlink !== undefined) payload.hyperlink = data.hyperlink;
 
       payload.updated_at = dayjs().valueOf();
