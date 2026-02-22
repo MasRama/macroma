@@ -26,13 +26,11 @@ class HomeController extends BaseController {
 
         const portfolios = await DB.from("portfolios")
             .orderBy('created_at', 'desc')
-            .limit(6)
             .select("*");
 
         const products = await DB.from("products")
             .where("is_featured", true)
             .orderBy('created_at', 'desc')
-            .limit(3)
             .select("*");
 
         return response.inertia("landing", { user, carousels, portfolios, products });
