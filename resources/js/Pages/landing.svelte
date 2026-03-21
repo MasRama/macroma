@@ -50,6 +50,7 @@
   let user = $page.props.user as User | undefined
   let carousels = $page.props.carousels as CarouselImage[] || []
   let portfolios = $page.props.portfolios as Portfolio[] || []
+  let products = $page.props.products as any[] || []
 
   // Data Static untuk Konten
   const services: Service[] = [
@@ -70,26 +71,25 @@
     }
   ];
 
-  const products: Product[] = [
-    {
-      name: "MacroFlow",
-      tagline: "Enterprise ERP System",
-      desc: "Sistem manajemen sumber daya perusahaan terintegrasi untuk efisiensi operasional maksimal.",
-      badge: "Flagship"
-    },
-    {
-      name: "MacroInsight",
-      tagline: "Data Analytics Platform",
-      desc: "Ubah data mentah menjadi keputusan bisnis cerdas dengan visualisasi real-time.",
-      badge: "New"
-    },
-    {
-      name: "MacroGuard",
-      tagline: "Cybersecurity Suite",
-      desc: "Proteksi menyeluruh untuk aset digital dan infrastruktur sistem Anda.",
-      badge: "Security"
+  function getTypeLabel(type: string): string {
+    const labels: Record<string, string> = {
+      'software': 'Software',
+      'service': 'Service',
+      'hardware': 'Hardware',
+      'saas': 'SaaS'
+    };
+    return labels[type] || type;
+  }
+
+  function getTypeBadgeColor(type: string): string {
+    switch (type) {
+      case 'software': return 'bg-blue-500/15 text-blue-300 border-blue-500/20';
+      case 'service': return 'bg-purple-500/15 text-purple-300 border-purple-500/20';
+      case 'hardware': return 'bg-orange-500/15 text-orange-300 border-orange-500/20';
+      case 'saas': return 'bg-cyan-500/15 text-cyan-300 border-cyan-500/20';
+      default: return 'bg-slate-500/15 text-slate-300 border-slate-500/20';
     }
-  ];
+  }
 </script>
 
 <!-- Background Elements -->
@@ -119,25 +119,15 @@
     </nav>
 
     <div class="flex items-center gap-4">
-      {#if user && user.id}
-        <a
-          href="/dashboard"
-          use:inertia
-          class="inline-flex items-center justify-center rounded-lg px-5 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 transition-all hover:shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)]"
-        >
-          Dashboard
-        </a>
-      {:else}
-        <a
-          href="https://wa.me/6285168657868?text=Halo%20Macroma%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda."
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 transition-all hover:shadow-[0_0_24px_-5px_rgba(34,197,94,0.6)]"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Hubungi Kami
-        </a>
-      {/if}
+      <a
+        href="https://wa.me/6285168657868?text=Halo%20Macroma%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 transition-all hover:shadow-[0_0_24px_-5px_rgba(34,197,94,0.6)]"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Hubungi Kami
+      </a>
     </div>
   </div>
 </header>
@@ -286,30 +276,122 @@
         </a>
       </div>
 
-      <div class="grid lg:grid-cols-3 gap-8">
-        {#each products as product, i}
-          <div class="group rounded-3xl bg-slate-950 border border-slate-800 p-2 hover:border-blue-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5">
-            <div class="h-full rounded-2xl bg-gradient-to-b from-slate-900/80 to-slate-900/50 p-6 flex flex-col">
-              <div class="flex justify-between items-start mb-6">
-                <div class="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/20">
-                  {product.name.charAt(0)}
+      {#if products && products.length > 0}
+        {#if products.length > 9}
+          <!-- Horizontal scroll for >9 products -->
+          <div class="overflow-x-auto pb-4 -mx-4 px-4">
+            <div class="flex gap-6" style="width: max-content;">
+              {#each products as product}
+                <div class="group rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-slate-700 transition-colors w-[340px] flex-shrink-0">
+                  <!-- Image -->
+                  <div class="aspect-video bg-slate-800 overflow-hidden relative">
+                    <img 
+                      src={product.image_url} 
+                      alt={product.name}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      on:error={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/400x225?text=No+Image';
+                      }}
+                    />
+                    <!-- Type badge on image -->
+                    <span class="absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] font-medium border {getTypeBadgeColor(product.type)}">
+                      {getTypeLabel(product.type)}
+                    </span>
+                  </div>
+                  
+                  <!-- Content -->
+                  <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                      <h3 class="text-base font-semibold text-slate-100">{product.name}</h3>
+                      <span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-[10px] font-bold uppercase tracking-wider text-blue-400 border border-blue-500/20">
+                        {product.badge}
+                      </span>
+                    </div>
+                    <p class="text-xs text-blue-400 font-medium uppercase tracking-wider mb-2">{product.tagline}</p>
+                    <p class="text-sm text-slate-300 mb-3 line-clamp-2">
+                      {product.desc}
+                    </p>
+                    
+                    {#if product.hyperlink}
+                      <a 
+                        href={product.hyperlink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Lihat Produk
+                      </a>
+                    {/if}
+                  </div>
                 </div>
-                <span class="px-3 py-1 rounded-full bg-blue-500/10 text-[10px] font-bold uppercase tracking-wider text-blue-400 border border-blue-500/20">
-                  {product.badge}
-                </span>
-              </div>
-              
-              <h3 class="text-xl font-bold text-slate-50 mb-1 group-hover:text-blue-400 transition-colors">{product.name}</h3>
-              <p class="text-blue-400 text-xs font-medium uppercase tracking-wider mb-4">{product.tagline}</p>
-              <p class="text-slate-400 text-sm mb-8 flex-grow">{product.desc}</p>
-
-              <button class="w-full rounded-xl bg-slate-800 py-3 text-sm font-medium text-slate-300 hover:bg-blue-600 hover:text-white transition-all border border-slate-700/50 hover:border-blue-600">
-                Pelajari Selengkapnya
-              </button>
+              {/each}
             </div>
           </div>
-        {/each}
-      </div>
+        {:else}
+          <!-- Grid layout for <=9 products -->
+          <div class="grid lg:grid-cols-3 gap-8">
+            {#each products as product}
+              <div class="group rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-slate-700 transition-colors">
+                <!-- Image -->
+                <div class="aspect-video bg-slate-800 overflow-hidden relative">
+                  <img 
+                    src={product.image_url} 
+                    alt={product.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    on:error={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://via.placeholder.com/400x225?text=No+Image';
+                    }}
+                  />
+                  <!-- Type badge on image -->
+                  <span class="absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] font-medium border {getTypeBadgeColor(product.type)}">
+                    {getTypeLabel(product.type)}
+                  </span>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-4">
+                  <div class="flex items-start justify-between mb-2">
+                    <h3 class="text-base font-semibold text-slate-100">{product.name}</h3>
+                    <span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-[10px] font-bold uppercase tracking-wider text-blue-400 border border-blue-500/20">
+                      {product.badge}
+                    </span>
+                  </div>
+                  <p class="text-xs text-blue-400 font-medium uppercase tracking-wider mb-2">{product.tagline}</p>
+                  <p class="text-sm text-slate-300 mb-3 line-clamp-2">
+                    {product.desc}
+                  </p>
+                  
+                  {#if product.hyperlink}
+                    <a 
+                      href={product.hyperlink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Lihat Produk
+                    </a>
+                  {/if}
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+      {:else}
+        <div class="text-center py-16">
+          <svg class="w-16 h-16 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <p class="text-slate-500">Produk akan segera hadir</p>
+        </div>
+      {/if}
     </div>
   </section>
 
@@ -325,40 +407,91 @@
       </div>
 
       {#if portfolios.length > 0}
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {#each portfolios as portfolio}
-            <div class="group rounded-3xl bg-slate-950 border border-slate-800 overflow-hidden hover:border-cyan-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5">
-              <div class="aspect-video overflow-hidden">
-                <img 
-                  src={portfolio.image_url} 
-                  alt={portfolio.title}
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  on:error={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'https://via.placeholder.com/600x400?text=Portfolio';
-                  }}
-                />
-              </div>
-              <div class="p-6">
-                <h3 class="text-xl font-bold text-slate-50 mb-2 group-hover:text-cyan-400 transition-colors">{portfolio.title}</h3>
-                <p class="text-slate-400 text-sm mb-4 line-clamp-2">{portfolio.description}</p>
-                {#if portfolio.link_url}
-                  <a 
-                    href={portfolio.link_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
-                  >
-                    <span>View Project</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                {/if}
-              </div>
+        {#if portfolios.length > 9}
+          <!-- Horizontal scroll for >9 portfolios -->
+          <div class="overflow-x-auto pb-4 -mx-4 px-4">
+            <div class="flex gap-6" style="width: max-content;">
+              {#each portfolios as portfolio}
+                <div class="group rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-slate-700 transition-colors w-[340px] flex-shrink-0">
+                  <div class="aspect-video bg-slate-800 overflow-hidden relative">
+                    <img 
+                      src={portfolio.image_url} 
+                      alt={portfolio.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      on:error={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/600x400?text=Portfolio';
+                      }}
+                    />
+                    {#if portfolio.badge}
+                      <span class="absolute top-2 right-2 px-2 py-1 rounded-full bg-blue-500/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-white border border-blue-400/20 shadow-lg">
+                        {portfolio.badge}
+                      </span>
+                    {/if}
+                  </div>
+                  <div class="p-4">
+                    <h3 class="text-base font-semibold text-slate-100 mb-2 group-hover:text-cyan-400 transition-colors">{portfolio.title}</h3>
+                    <p class="text-sm text-slate-300 mb-3 line-clamp-2">{portfolio.description}</p>
+                    {#if portfolio.link_url}
+                      <a 
+                        href={portfolio.link_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                      >
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        View Project
+                      </a>
+                    {/if}
+                  </div>
+                </div>
+              {/each}
             </div>
-          {/each}
-        </div>
+          </div>
+        {:else}
+          <!-- Grid layout for <=9 portfolios -->
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {#each portfolios as portfolio}
+              <div class="group rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-slate-700 transition-colors">
+                <div class="aspect-video bg-slate-800 overflow-hidden relative">
+                  <img 
+                    src={portfolio.image_url} 
+                    alt={portfolio.title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    on:error={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://via.placeholder.com/600x400?text=Portfolio';
+                    }}
+                  />
+                  {#if portfolio.badge}
+                    <span class="absolute top-2 right-2 px-2 py-1 rounded-full bg-blue-500/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-white border border-blue-400/20 shadow-lg">
+                      {portfolio.badge}
+                    </span>
+                  {/if}
+                </div>
+                <div class="p-4">
+                  <h3 class="text-base font-semibold text-slate-100 mb-2 group-hover:text-cyan-400 transition-colors">{portfolio.title}</h3>
+                  <p class="text-sm text-slate-300 mb-3 line-clamp-2">{portfolio.description}</p>
+                  {#if portfolio.link_url}
+                    <a 
+                      href={portfolio.link_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                    >
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      View Project
+                    </a>
+                  {/if}
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
       {:else}
         <div class="text-center py-16">
           <svg class="w-16 h-16 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
