@@ -21,8 +21,12 @@
   
   <section class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-50">
     <div class="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-16 mx-auto min-h-screen">
-        <div  class="flex items-center mb-2 text-2xl font-semibold text-slate-50">
-            <NaraIcon></NaraIcon>
+        <div class="flex items-center gap-3 mb-2">
+            <img src="/public/macroma.png" alt="Macroma Logo" class="h-10 w-10 rounded-xl object-contain" />
+            <div class="flex flex-col leading-none">
+              <span class="text-lg font-bold tracking-tight text-slate-100">Macroma</span>
+              <span class="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-semibold">Media Teknologi</span>
+            </div>
         </div>
         <div class="mb-6 text-sm text-slate-400">
             <a href="/" use:inertia class="inline-flex items-center gap-1 text-slate-400 hover:text-slate-200">

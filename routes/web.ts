@@ -23,6 +23,7 @@ const Route = createRouter();
  * GET  / - Home page
  */
 Route.get("/", HomeController.index);
+Route.get("/about", HomeController.about);
 
 /**
  * Authentication Routes

@@ -35,6 +35,23 @@ class HomeController extends BaseController {
 
         return response.inertia("landing", { user, carousels, portfolios, products });
     }
+
+    public async about(request: NaraRequest, response: NaraResponse) {
+        let user: any = {};
+
+        if (request.cookies.auth_id) {
+            const session = await DB.from("sessions").where("id", request.cookies.auth_id).first();
+
+            if (session) {
+                user = await DB.from("users")
+                    .where("id", session.user_id)
+                    .select(["id","name","email","phone","avatar","is_admin","is_verified"])
+                    .first();
+            }
+        }
+
+        return response.inertia("about", { user });
+    }
 }
 
 export default new HomeController()
