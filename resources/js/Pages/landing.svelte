@@ -44,10 +44,9 @@
 
   interface Portfolio {
     id: string;
-    title: string;
     description: string;
     image_url: string;
-    link_url: string | null;
+    hyperlink: string | null;
     badge?: string;
   }
 
@@ -55,6 +54,7 @@
   let carousels = $page.props.carousels as CarouselImage[] || []
   let portfolios = $page.props.portfolios as Portfolio[] || []
   let products = $page.props.products as Product[] || []
+  let teamsData = $page.props.teams as any[] || []
 
   // ── Pagination state ──
   const ITEMS_PER_PAGE = 9
@@ -127,24 +127,6 @@
       "Berkontribusi pada kemajuan digitalisasi di berbagai sektor industri."
     ]
   }
-
-  const team = [
-    {
-      name: "Founder & CEO",
-      role: "Chief Executive Officer",
-      desc: "Memimpin visi dan strategi perusahaan untuk pertumbuhan berkelanjutan."
-    },
-    {
-      name: "CTO",
-      role: "Chief Technology Officer",
-      desc: "Mengarahkan pengembangan teknologi dan inovasi produk."
-    },
-    {
-      name: "Lead Developer",
-      role: "Technical Lead",
-      desc: "Memimpin tim pengembangan dalam membangun solusi berkualitas."
-    }
-  ]
 
   function getTypeLabel(type: string): string {
     const labels: Record<string, string> = {
@@ -456,7 +438,7 @@
               <div class="aspect-video bg-slate-800 overflow-hidden relative">
                 <img 
                   src={portfolio.image_url} 
-                  alt={portfolio.title}
+                  alt={portfolio.badge || 'Portfolio'}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   on:error={(e) => {
                     const target = e.target as HTMLImageElement;
@@ -470,18 +452,33 @@
                 {/if}
               </div>
               <div class="p-4">
-                <h3 class="text-base font-semibold text-slate-100 mb-2 group-hover:text-cyan-400 transition-colors">{portfolio.title}</h3>
+                <h3 class="text-base font-semibold text-slate-100 mb-2 group-hover:text-cyan-400 transition-colors">{portfolio.badge || 'Project'}</h3>
                 <p class="text-sm text-slate-300 mb-3 line-clamp-2">{portfolio.description}</p>
-                <button 
-                  class="inline-flex items-center gap-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
-                  on:click={() => openPortfolioDetail(portfolio)}
-                >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  Lihat Project
-                </button>
+                <div class="flex items-center gap-3">
+                  <button 
+                    class="inline-flex items-center gap-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                    on:click={() => openPortfolioDetail(portfolio)}
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Lihat Project
+                  </button>
+                  {#if portfolio.hyperlink}
+                    <a 
+                      href={portfolio.hyperlink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Kunjungi Situs
+                    </a>
+                  {/if}
+                </div>
               </div>
             </div>
           {/each}
@@ -622,18 +619,30 @@
       </div>
 
       <div class="grid md:grid-cols-3 gap-8">
-        {#each team as member}
+        {#each teamsData as member}
           <div class="group rounded-3xl bg-slate-900/80 border border-slate-800 p-8 text-center hover:border-cyan-500/30 transition-all duration-300">
-            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
-              <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center overflow-hidden">
+              {#if member.photo_url}
+                <img src={member.photo_url} alt={member.name} class="w-full h-full object-cover" on:error={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden') }} />
+                <svg class="w-12 h-12 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              {:else}
+                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              {/if}
             </div>
             <h4 class="text-xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">{member.name}</h4>
-            <p class="text-cyan-400 text-sm font-medium mb-4">{member.role}</p>
-            <p class="text-slate-400 text-sm">{member.desc}</p>
+            <p class="text-cyan-400 text-sm font-medium mb-4">{member.position}</p>
+            <p class="text-slate-400 text-sm">{member.jobdesk}</p>
           </div>
         {/each}
+        {#if teamsData.length === 0}
+          <div class="col-span-full text-center py-8">
+            <p class="text-slate-500">Tim akan segera hadir</p>
+          </div>
+        {/if}
       </div>
     </div>
   </section>
@@ -727,7 +736,7 @@
       <div class="aspect-video bg-slate-800 overflow-hidden relative">
         <img 
           src={selectedPortfolio.image_url} 
-          alt={selectedPortfolio.title}
+          alt={selectedPortfolio.badge || 'Portfolio'}
           class="w-full h-full object-cover"
           on:error={(e) => {
             const target = e.target as HTMLImageElement;
@@ -752,13 +761,13 @@
 
       <!-- Modal Content -->
       <div class="p-6 md:p-8">
-        <h3 class="text-xl md:text-2xl font-bold text-white mb-3">{selectedPortfolio.title}</h3>
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-3">{selectedPortfolio.badge || 'Project'}</h3>
         <p class="text-slate-300 leading-relaxed mb-6">{selectedPortfolio.description}</p>
         
-        <div class="flex items-center gap-3">
-          {#if selectedPortfolio.link_url}
+        <div class="flex items-center gap-3 flex-wrap">
+          {#if selectedPortfolio.hyperlink}
             <a 
-              href={selectedPortfolio.link_url} 
+              href={selectedPortfolio.hyperlink} 
               target="_blank" 
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 px-5 py-2.5 text-sm font-medium text-white transition-colors"
@@ -766,7 +775,7 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
-              Kunjungi Project
+              Kunjungi Situs
             </a>
           {/if}
           <button 

@@ -130,6 +130,26 @@ export interface DeleteCarouselsInput {
   ids: string[];
 }
 
+export interface CreateTeamInput {
+  photo_url?: string | null;
+  name: string;
+  position: string;
+  jobdesk: string;
+  order?: number;
+}
+
+export interface UpdateTeamInput {
+  photo_url?: string | null;
+  name?: string;
+  position?: string;
+  jobdesk?: string;
+  order?: number;
+}
+
+export interface DeleteTeamsInput {
+  ids: string[];
+}
+
 
 // ============================================
 // Validator Functions
@@ -1040,6 +1060,152 @@ export function DeleteCarouselsSchema(data: unknown): ValidationResult<DeleteCar
   const { ids } = data as Record<string, unknown>;
 
   // IDs validation
+  if (!isArray(ids) || ids.length === 0) {
+    errors.ids = ['Minimal satu ID harus dipilih'];
+  } else {
+    const invalidIds = ids.filter(id => !isUUID(id));
+    if (invalidIds.length > 0) {
+      errors.ids = ['Format ID tidak valid'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  return {
+    success: true,
+    data: {
+      ids: (ids as unknown[]).map(id => String(id)),
+    }
+  };
+}
+
+/**
+ * Create team member validator
+ */
+export function CreateTeamSchema(data: unknown): ValidationResult<CreateTeamInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { photo_url, name, position, jobdesk, order } = data as Record<string, unknown>;
+
+  if (!isString(name) || name.trim().length < 2) {
+    errors.name = ['Nama minimal 2 karakter'];
+  } else if (name.length > 100) {
+    errors.name = ['Nama maksimal 100 karakter'];
+  }
+
+  if (!isString(position) || position.trim().length < 2) {
+    errors.position = ['Jabatan minimal 2 karakter'];
+  } else if (position.length > 100) {
+    errors.position = ['Jabatan maksimal 100 karakter'];
+  }
+
+  if (!isString(jobdesk) || jobdesk.trim().length < 5) {
+    errors.jobdesk = ['Jobdesk minimal 5 karakter'];
+  } else if (jobdesk.length > 500) {
+    errors.jobdesk = ['Jobdesk maksimal 500 karakter'];
+  }
+
+  if (photo_url !== undefined && photo_url !== null && photo_url !== '') {
+    if (!isString(photo_url)) {
+      errors.photo_url = ['Format URL foto tidak valid'];
+    }
+  }
+
+  if (order !== undefined && order !== null) {
+    if (typeof order !== 'number') {
+      errors.order = ['Order harus berupa angka'];
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  return {
+    success: true,
+    data: {
+      photo_url: photo_url ? String(photo_url).trim() : null,
+      name: String(name).trim(),
+      position: String(position).trim(),
+      jobdesk: String(jobdesk).trim(),
+      order: order !== undefined ? Number(order) : 0,
+    }
+  };
+}
+
+/**
+ * Update team member validator
+ */
+export function UpdateTeamSchema(data: unknown): ValidationResult<UpdateTeamInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { photo_url, name, position, jobdesk, order } = data as Record<string, unknown>;
+
+  const hasAnyField = name !== undefined || position !== undefined || jobdesk !== undefined || photo_url !== undefined || order !== undefined;
+  
+  if (!hasAnyField) {
+    errors._root = ['Minimal satu field harus diisi untuk update'];
+  }
+
+  if (name !== undefined && name !== null) {
+    if (!isString(name) || name.trim().length < 2) errors.name = ['Nama minimal 2 karakter'];
+    else if (name.length > 100) errors.name = ['Nama maksimal 100 karakter'];
+  }
+
+  if (position !== undefined && position !== null) {
+    if (!isString(position) || position.trim().length < 2) errors.position = ['Jabatan minimal 2 karakter'];
+    else if (position.length > 100) errors.position = ['Jabatan maksimal 100 karakter'];
+  }
+
+  if (jobdesk !== undefined && jobdesk !== null) {
+    if (!isString(jobdesk) || jobdesk.trim().length < 5) errors.jobdesk = ['Jobdesk minimal 5 karakter'];
+    else if (jobdesk.length > 500) errors.jobdesk = ['Jobdesk maksimal 500 karakter'];
+  }
+
+  if (photo_url !== undefined && photo_url !== null && photo_url !== '') {
+    if (!isString(photo_url)) errors.photo_url = ['Format URL foto tidak valid'];
+  }
+
+  if (order !== undefined && order !== null) {
+    if (typeof order !== 'number') errors.order = ['Order harus berupa angka'];
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors };
+  }
+
+  const result: UpdateTeamInput = {};
+  if (name !== undefined) result.name = String(name).trim();
+  if (position !== undefined) result.position = String(position).trim();
+  if (jobdesk !== undefined) result.jobdesk = String(jobdesk).trim();
+  if (photo_url !== undefined) result.photo_url = photo_url ? String(photo_url).trim() : null;
+  if (order !== undefined) result.order = Number(order);
+
+  return { success: true, data: result };
+}
+
+/**
+ * Delete teams validator
+ */
+export function DeleteTeamsSchema(data: unknown): ValidationResult<DeleteTeamsInput> {
+  const errors: Record<string, string[]> = {};
+  
+  if (!isObject(data)) {
+    return { success: false, errors: { _root: ['Data harus berupa object'] } };
+  }
+
+  const { ids } = data as Record<string, unknown>;
+
   if (!isArray(ids) || ids.length === 0) {
     errors.ids = ['Minimal satu ID harus dipilih'];
   } else {

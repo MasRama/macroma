@@ -50,6 +50,11 @@ export {
   CreateCarouselSchema,
   UpdateCarouselSchema,
   DeleteCarouselsSchema,
+  
+  // Team
+  CreateTeamSchema,
+  UpdateTeamSchema,
+  DeleteTeamsSchema,
 } from './schemas';
 
 // Type exports
@@ -72,4 +77,7 @@ export type {
   CreateCarouselInput,
   UpdateCarouselInput,
   DeleteCarouselsInput,
+  CreateTeamInput,
+  UpdateTeamInput,
+  DeleteTeamsInput,
 } from './schemas';

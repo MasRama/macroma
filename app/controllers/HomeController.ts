@@ -33,7 +33,12 @@ class HomeController extends BaseController {
             .orderBy('created_at', 'desc')
             .select("*");
 
-        return response.inertia("landing", { user, carousels, portfolios, products });
+        const teams = await DB.from("teams")
+            .orderBy('order', 'asc')
+            .orderBy('created_at', 'desc')
+            .select("*");
+
+        return response.inertia("landing", { user, carousels, portfolios, products, teams });
     }
 
     public async about(request: NaraRequest, response: NaraResponse) {

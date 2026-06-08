@@ -12,6 +12,7 @@ import AssetController from "@controllers/AssetController";
 import PortfolioController from "@controllers/PortfolioController";
 import ProductController from "@controllers/ProductController";
 import CarouselController from "@controllers/CarouselController";
+import TeamController from "@controllers/TeamController";
 import { strictRateLimit } from "@middlewares/rateLimit";
 
 const Route = createRouter();
@@ -123,6 +124,20 @@ Route.post("/carousels", [Auth], CarouselController.createCarousel);
 Route.put("/carousels/:id", [Auth], CarouselController.updateCarousel);
 Route.delete("/carousels", [Auth], CarouselController.deleteCarousels);
 Route.get("/api/carousels/active", CarouselController.getActiveCarousels);
+
+/**
+ * Team Routes
+ * Routes for managing team members
+ * ------------------------------------------------
+ * GET    /teams     - List all team members (admin only)
+ * POST   /teams     - Create team member (admin only)
+ * PUT    /teams/:id - Update team member (admin only)
+ * DELETE /teams     - Delete team members (admin only)
+ */
+Route.get("/teams", [Auth], TeamController.teamsPage);
+Route.post("/teams", [Auth], TeamController.createTeam);
+Route.put("/teams/:id", [Auth], TeamController.updateTeam);
+Route.delete("/teams", [Auth], TeamController.deleteTeams);
 
 // Avatar upload endpoint (local storage) - rate limited to prevent abuse
 Route.post("/assets/avatar", [Auth, strictRateLimit()], AssetController.uploadAsset);
